@@ -17,7 +17,7 @@ app.get('/', (req, res) => {
   res.sendFile(__dirname + '/views/index.html')
 });
 
-mongoose.connect(process.env.MONGODB_URL, { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(`mongodb+srv://alialghanay:03541514@cluster.qdcdggp.mongodb.net/trucker?retryWrites=true&w=majority`, { useNewUrlParser: true, useUnifiedTopology: true });
 
 // You can POST to /api/users with form data username to create a new user.
 
