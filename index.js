@@ -128,7 +128,7 @@ app.get('/api/users/:_id/logs', (req, res) => {
       res.json({
         _id: data._id,
         username: data.username,
-        logs: data.exercises
+        log: data.exercises
       });
     }
   })  
