@@ -61,8 +61,8 @@ function createAndSaveExercise(arr, done) {
     "user": arr[0],
     "description": arr[1],
     "duration": arr[2],
-    "date": new Date(arr[3]).toDateString(),
-    "dateISO": new Date(arr[3])
+    "date": arr[3].toDateString(),
+    "dateISO": arr[3]
   });
 
   newExercise.save((error, data) => {

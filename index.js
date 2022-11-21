@@ -74,19 +74,24 @@ app.post('/api/users/:_id/exercises', (req, res) => {
   var { description } = req.body;
   var { duration } = req.body;
   var { date } = req.body;
-  createAndSaveExercise([_id, description, duration, date], (err, d) => {
-    if(err) {
-      console.error(err);
-    }else {
-      res.json({
-        _id: d[0]._id,
-        username: d[0].username,
-        description: d[1].description,
-        duration: d[1].duration,
-        date: d[1].date
-      })
-    }
-  })
+  date = new Date(date);
+  if(!isNaN(date)) {
+    res.json({State: "Invaild date"})
+  }else{
+    createAndSaveExercise([_id, description, duration, date], (err, d) => {
+      if(err) {
+        console.error(err);
+      }else {
+        res.json({
+          _id: d[0]._id,
+          username: d[0].username,
+          description: d[1].description,
+          duration: d[1].duration,
+          date: d[1].date
+        })
+      }
+    })
+  }
 })
 
 // You can make a GET request to /api/users/:_id/logs,
@@ -124,12 +129,12 @@ app.get('/api/users/:_id/logs', (req, res) => {
   let to = new Date(req.query.to);
   if(isNaN(from)) from = new Date("1970-01-01"); 
   if(isNaN(to)) to = new Date("2025-01-01");
-  // let { limit } = req.params; 
+  let { limit } = req.params; 
   if(_id == null){
     res.json({});
     return;
   }
-  findlogs(_id, [from, to, 0], (err, data) => {
+  findlogs(_id, [from, to, limit], (err, data) => {
     if(err){
       console.log(err);
       res.json({});
