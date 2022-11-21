@@ -124,6 +124,12 @@ app.get('/api/users/:_id/logs', (req, res) => {
   findlogs(_id, [from, to, limit], (err, data) => {
     if(err){
       console.log(err);
+      res.json({
+        _id: _id,
+        username: 'not founded',
+        count: 0,
+        log: []
+      });
     }else{
       res.json({
         _id: data._id,
