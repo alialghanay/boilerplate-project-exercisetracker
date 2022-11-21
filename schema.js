@@ -91,6 +91,8 @@ function findlogs(id, params, done){
       .exec((err, dataOne) => {
         if(err) {
           console.error(err)
+          done({}, null);
+          return;
         }else if(dataOne === null){
           done({}, null);
           return; 

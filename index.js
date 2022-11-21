@@ -121,15 +121,14 @@ app.get('/api/users/:_id/logs', (req, res) => {
   const  from  = req.query.from == null ? "1970-01-01" : req.query.from;
   const  to  = req.query.to == null ? "2050-01-01" : req.query.to;
   const { limit } = req.query;
+  if(_id == null){
+    res.json();
+    return;
+  }
   findlogs(_id, [from, to, limit], (err, data) => {
     if(err){
       console.log(err);
-      res.json({
-        _id: _id,
-        username: 'not founded',
-        count: 0,
-        log: []
-      });
+      res.json({});
     }else{
       res.json({
         _id: data._id,
