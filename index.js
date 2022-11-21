@@ -75,7 +75,7 @@ app.post('/api/users/:_id/exercises', (req, res) => {
   var { duration } = req.body;
   var { date } = req.body;
   date = new Date(date);
-  if(!isNaN(date)) date =  new Date();
+  if(isNaN(date)) date =  new Date();
   createAndSaveExercise([_id, description, duration, date], (err, d) => {
     if(err) {
       console.error(err);
@@ -120,7 +120,6 @@ app.post('/api/users/:_id/exercises', (req, res) => {
 // limit is an integer of how many logs to send back.
 
 app.get('/api/users/:_id/logs', (req, res) => {
-  console.log(req.query);
   const { _id } = req.params;
   let from = new Date(req.query.from);
   let to = new Date(req.query.to);
@@ -136,7 +135,6 @@ app.get('/api/users/:_id/logs', (req, res) => {
       console.log(err);
       res.json({});
     }else{
-      console.log(data)
       res.json({
         _id: data._id,
         username: data.username,
