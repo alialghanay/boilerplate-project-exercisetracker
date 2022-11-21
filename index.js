@@ -75,23 +75,20 @@ app.post('/api/users/:_id/exercises', (req, res) => {
   var { duration } = req.body;
   var { date } = req.body;
   date = new Date(date);
-  if(!isNaN(date)) {
-    res.json({State: "Invaild date"})
-  }else{
-    createAndSaveExercise([_id, description, duration, date], (err, d) => {
-      if(err) {
-        console.error(err);
-      }else {
-        res.json({
-          _id: d[0]._id,
-          username: d[0].username,
-          description: d[1].description,
-          duration: d[1].duration,
-          date: d[1].date
-        })
-      }
-    })
-  }
+  if(!isNaN(date)) date =  new Date();
+  createAndSaveExercise([_id, description, duration, date], (err, d) => {
+    if(err) {
+      console.error(err);
+    }else {
+      res.json({
+        _id: d[0]._id,
+        username: d[0].username,
+        description: d[1].description,
+        duration: d[1].duration,
+        date: d[1].date
+      })
+    }
+  })
 })
 
 // You can make a GET request to /api/users/:_id/logs,
