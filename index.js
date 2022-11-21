@@ -41,6 +41,7 @@ app.post('/api/users', (req, res) => {
       res.json({username: d.username, _id:d._id});
     }
   })
+  res.end();
 })
 
 // You can make a GET request to /api/users to get a list of all users.
@@ -55,10 +56,12 @@ app.get('/api/users', (req, res) => {
     if(err) {
       console.log(err);
     }else if(d === null) {
+      res.json({});
     }else {
       res.json(d);
     }
   })
+  res.end();
 })
 
 // You can POST to /api/users/:_id/exercises with form data description,
@@ -86,6 +89,7 @@ app.post('/api/users/:_id/exercises', (req, res) => {
       })
     }
   })
+  res.end();
 })
 
 // You can make a GET request to /api/users/:_id/logs,
@@ -118,11 +122,11 @@ app.post('/api/users/:_id/exercises', (req, res) => {
 
 app.get('/api/users/:_id/logs', (req, res) => {
   const { _id } = req.params;
-  const  from  = req.query.from == null ? "1970-01-01" : req.query.from;
-  const  to  = req.query.to == null ? "2050-01-01" : req.query.to;
+  const  from  = req.query.from == null | '' | undefined? "1970-01-01" : req.query.from;
+  const  to  = req.query.to == null | '' | undefined? "2050-01-01" : req.query.to;
   const { limit } = req.query;
   if(_id == null){
-    res.json();
+    res.json({});
     return;
   }
   findlogs(_id, [from, to, limit], (err, data) => {
@@ -137,7 +141,8 @@ app.get('/api/users/:_id/logs', (req, res) => {
         log: data.exercises
       });
     }
-  })  
+  })
+  res.end();  
 })
 
 const listener = app.listen(process.env.PORT || 3000, () => {
