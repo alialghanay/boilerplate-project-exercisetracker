@@ -106,7 +106,7 @@ function findlogs(id, params, done){
               $lte: params[1],
             }
           })
-                  .select('-_id -user -__v')
+                  .select('-_id -user -__v -dateISO')
                   .limit(params[2])
                   .exec((err, dataTwo) => {
                     if(err){

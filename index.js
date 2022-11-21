@@ -41,7 +41,6 @@ app.post('/api/users', (req, res) => {
       res.json({username: d.username, _id:d._id});
     }
   })
-  res.end();
 })
 
 // You can make a GET request to /api/users to get a list of all users.
@@ -61,7 +60,6 @@ app.get('/api/users', (req, res) => {
       res.json(d);
     }
   })
-  res.end();
 })
 
 // You can POST to /api/users/:_id/exercises with form data description,
@@ -89,7 +87,6 @@ app.post('/api/users/:_id/exercises', (req, res) => {
       })
     }
   })
-  res.end();
 })
 
 // You can make a GET request to /api/users/:_id/logs,
@@ -121,19 +118,23 @@ app.post('/api/users/:_id/exercises', (req, res) => {
 // limit is an integer of how many logs to send back.
 
 app.get('/api/users/:_id/logs', (req, res) => {
+  console.log(req.query);
   const { _id } = req.params;
-  const  from  = req.query.from == null | '' | undefined? "1970-01-01" : req.query.from;
-  const  to  = req.query.to == null | '' | undefined? "2050-01-01" : req.query.to;
-  const { limit } = req.query;
+  let from = new Date(req.query.from);
+  let to = new Date(req.query.to);
+  if(isNaN(from)) from = new Date("1970-01-01"); 
+  if(isNaN(to)) to = new Date("2025-01-01");
+  // let { limit } = req.params; 
   if(_id == null){
     res.json({});
     return;
   }
-  findlogs(_id, [from, to, limit], (err, data) => {
+  findlogs(_id, [from, to, 0], (err, data) => {
     if(err){
       console.log(err);
       res.json({});
     }else{
+      console.log(data)
       res.json({
         _id: data._id,
         username: data.username,
@@ -141,8 +142,7 @@ app.get('/api/users/:_id/logs', (req, res) => {
         log: data.exercises
       });
     }
-  })
-  res.end();  
+  }) 
 })
 
 const listener = app.listen(process.env.PORT || 3000, () => {
