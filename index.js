@@ -126,6 +126,7 @@ app.get('/api/users/:_id/logs', (req, res) => {
   if(isNaN(from)) from = new Date("1970-01-01"); 
   if(isNaN(to)) to = new Date("2025-01-01");
   let { limit } = req.query; 
+  console.logfr([from, to, limit])
   if(_id == null){
     res.json({});
     return;
